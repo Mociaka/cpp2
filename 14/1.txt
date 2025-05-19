@@ -1,0 +1,28 @@
+#include <iostream>
+#include <cstdlib> 
+#include <ctime>    
+
+
+int main() {
+
+    int size = 10;
+    
+    float* arr = new float[size];
+
+    
+    std::srand(time(0));;
+
+    int pos = 0, neg = 0;
+    for (int i = 0; i < size; ++i) {
+        arr[i] = -2 + ((rand() *1.0) / RAND_MAX * 4.0);
+        std::cout << arr[i] << " ";
+        if (arr[i] > 0) pos++;
+        else if (arr[i] < 0) neg++;
+    }
+
+    std::cout << "\nДодатніх: " << pos << "\nВід'ємних: " << neg << std::endl;
+
+    delete[] arr;
+
+    return 0;
+}

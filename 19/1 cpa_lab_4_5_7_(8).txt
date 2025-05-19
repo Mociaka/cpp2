@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+int main() {
+    string inputValues;
+    getline(cin, inputValues);
+
+    string templateText;
+    getline(cin, templateText);
+
+    unordered_map<string, string> replacements;
+    size_t currentIndex = 0;
+
+    while (currentIndex < inputValues.length()) {
+        size_t commaPosition = inputValues.find(',', currentIndex);
+        string nameValuePair;
+        if (commaPosition == string::npos) {
+            nameValuePair = inputValues.substr(currentIndex);
+        } else {
+            nameValuePair = inputValues.substr(currentIndex, commaPosition - currentIndex);
+        }
+
+        size_t equalSignPosition = nameValuePair.find('=');
+        if (equalSignPosition != string::npos) {
+            string key = nameValuePair.substr(0, equalSignPosition);
+            string value = nameValuePair.substr(equalSignPosition + 1);
+            replacements[key] = value;
+        }
+
+        if (commaPosition == string::npos) break;
+        currentIndex = commaPosition + 1;
+    }
+
+    string finalText;
+    size_t templateIndex = 0;
+
+    while (templateIndex < templateText.length()) {
+        if (templateText[templateIndex] == '[') {
+            size_t closingBracketPosition = templateText.find(']', templateIndex);
+            if (closingBracketPosition != string::npos) {
+                string placeholderName = templateText.substr(templateIndex + 1, closingBracketPosition - templateIndex - 1);
+                if (replacements.count(placeholderName)) {
+                    finalText += replacements[placeholderName];
+                } else {
+                    finalText += "[" + placeholderName + "]";
+                }
+                templateIndex = closingBracketPosition + 1;
+            } else {
+                finalText += templateText.substr(templateIndex);
+                break;
+            }
+        } else {
+            finalText += templateText[templateIndex];
+            ++templateIndex;
+        }
+    }
+
+    cout << finalText << "\n";
+
+    return 0;
+}

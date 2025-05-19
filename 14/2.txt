@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+int main() {
+    int** a = new int*[3];
+    for (int i = 0; i < 3; ++i)
+        a[i] = new int[3];
+
+    srand(time(0));
+
+    int even = 0, odd = 0;
+
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            a[i][j] = rand() % 21 - 10;
+            std::cout << a[i][j] << "\t";
+            (a[i][j] % 2 == 0) ? ++even : ++odd;
+        }
+        std::cout << "\n";
+    }
+
+    std::cout << "Головна: ";
+    for (int i = 0; i < 3; ++i)
+        std::cout << a[i][i] << " ";
+    
+    std::cout << "\nПобiчна: ";
+    for (int i = 0; i < 3; ++i)
+        std::cout << a[i][2 - i] << " ";
+
+    std::cout << "\nПарні: " << even << "\nНепарні: " << odd << "\n";
+
+    for (int i = 0; i < 3; ++i)
+        delete[] a[i];
+    delete[] a;
+
+    return 0;
+}

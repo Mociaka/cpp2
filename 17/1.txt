@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+
+bool isPrime(int number) {
+    if (number <= 1) {
+        return false; 
+    }
+
+    for (int i = 2; i * i <= number; i++) {
+        if (number % i == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    int n;
+    cout << "Введіть число: ";
+    cin >> n;
+
+    if (isPrime(n)) {
+        cout << n << " є простим." << endl;
+    } else {
+        cout << n << " не є простим." << endl;
+    }
+
+    return 0;
+}
