@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <cstdlib> // for abs()
+using namespace std;
+
+class Fraction {
+public:
+    Fraction(int numerator, int denominator);
+
+    string toString();
+    double toDouble();
+
+private:
+    int numerator;
+    int denominator;
+};
+
+Fraction::Fraction(int num, int den) {
+    // Normalize sign: only numerator carries the sign
+    if (den < 0) {
+        num = -num;
+        den = -den;
+    }
+    numerator = num;
+    denominator = den;
+}
+
+double Fraction::toDouble() {
+    return static_cast<double>(numerator) / denominator;
+}
+
+string Fraction::toString() {
+    int num = numerator;
+    int den = denominator;
+
+    int wholePart = num / den;
+    int remainder = abs(num % den);
+    stringstream ss;
+
+    // Mixed fraction if there's a whole part and a remainder
+    if (remainder != 0 && abs(num) >= den) {
+        ss << wholePart << " " << remainder << "/" << den;
+    }
+    // Proper fraction
+    else if (abs(num) < den) {
+        ss << num << "/" << den;
+    }
+    // Whole number
+    else {
+        ss << wholePart;
+    }
+
+    return ss.str();
+}
+
+int main() {
+    string input;
+    cout << "Enter a fraction (e.g., 7 / -4): ";
+    getline(cin, input);
+
+    // Parse the input string
+    int num, den;
+    char slash;
+    stringstream ss(input);
+    ss >> num >> slash >> den;
+
+    // Assume denominator is never 0 as per problem statement
+    Fraction fraction(num, den);
+
+    cout << fraction.toString() << " is " << fraction.toDouble() << " in decimal" << endl;
+
+    return 0;
+}

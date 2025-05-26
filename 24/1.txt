@@ -1,0 +1,117 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <cstdlib>
+using namespace std;
+
+class Fraction {
+public:
+    Fraction(int numerator, int denominator);
+
+    string toString();
+    double toDouble();
+
+    bool isGreaterThan(Fraction that);
+    bool isLessThan(Fraction that);
+    bool isEqual(Fraction that);
+
+private:
+    int numerator;
+    int denominator;
+
+    void reduce();
+    static int gcd(int a, int b);
+};
+
+Fraction::Fraction(int num, int den) {
+    if (den < 0) {
+        num = -num;
+        den = -den;
+    }
+    numerator = num;
+    denominator = den;
+    reduce();
+}
+
+int Fraction::gcd(int a, int b) {
+    while (b != 0) {
+        int tmp = b;
+        b = a % b;
+        a = tmp;
+    }
+    return abs(a);
+}
+
+void Fraction::reduce() {
+    int divisor = gcd(numerator, denominator);
+    numerator /= divisor;
+    denominator /= divisor;
+}
+
+double Fraction::toDouble() {
+    return static_cast<double>(numerator) / denominator;
+}
+
+string Fraction::toString() {
+    if (numerator == 0) return "0";
+
+    int whole = numerator / denominator;
+    int remainder = abs(numerator % denominator);
+    stringstream ss;
+
+    if (remainder != 0 && abs(numerator) >= denominator) {
+        ss << whole << " " << remainder << "/" << denominator;
+    } else if (abs(numerator) < denominator) {
+        ss << numerator << "/" << denominator;
+    } else {
+        ss << whole;
+    }
+
+    return ss.str();
+}
+
+// Comparison methods
+bool Fraction::isGreaterThan(Fraction that) {
+    return numerator * that.denominator > that.numerator * denominator;
+}
+
+bool Fraction::isLessThan(Fraction that) {
+    return numerator * that.denominator < that.numerator * denominator;
+}
+
+bool Fraction::isEqual(Fraction that) {
+    return numerator == that.numerator && denominator == that.denominator;
+}
+
+int main() {
+    string input1, input2;
+    cout << "Enter first fraction (e.g., 3 / 4): ";
+    getline(cin, input1);
+    cout << "Enter second fraction (e.g., 1 / 3): ";
+    getline(cin, input2);
+
+    int num1, den1, num2, den2;
+    char slash;
+
+    stringstream ss1(input1);
+    ss1 >> num1 >> slash >> den1;
+
+    stringstream ss2(input2);
+    ss2 >> num2 >> slash >> den2;
+
+    Fraction f1(num1, den1);
+    Fraction f2(num2, den2);
+
+    string f1Str = f1.toString();
+    string f2Str = f2.toString();
+
+    if (f1.isGreaterThan(f2)) {
+        cout << f1Str << " > " << f2Str << endl;
+    } else if (f1.isLessThan(f2)) {
+        cout << f1Str << " < " << f2Str << endl;
+    } else {
+        cout << f1Str << " == " << f2Str << endl;
+    }
+
+    return 0;
+}

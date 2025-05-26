@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+
+// Base class
+class Tree {
+public:
+    virtual void draw() const {
+        // Base version (optional to implement)
+    }
+    virtual ~Tree() {} // Always make base destructors virtual
+};
+
+// Derived class 1
+class Tree1 : public Tree {
+public:
+    void draw() const override {
+        cout << "Drawing 1:\n";
+        cout << "  /\\\n";
+        cout << " //\\\\\n";
+    }
+};
+
+// Derived class 2
+class Tree2 : public Tree {
+public:
+    void draw() const override {
+        cout << "Drawing 2:\n";
+        cout << "  /\\\n";
+        cout << " /**\\\n";
+    }
+};
+
+// Derived class 3
+class Tree3 : public Tree {
+public:
+    void draw() const override {
+        cout << "Drawing 3:\n";
+        cout << "  /\\\n";
+        cout << " /++\\\n";
+    }
+};
+
+int main() {
+    // Array of base class pointers
+    Tree* forest[3];
+
+    // Create objects and assign them to the array
+    Tree1 t1;
+    Tree2 t2;
+    Tree3 t3;
+
+    forest[0] = &t1;
+    forest[1] = &t2;
+    forest[2] = &t3;
+
+    // Call draw() on each tree using polymorphism
+    for (int i = 0; i < 3; ++i) {
+        forest[i]->draw();
+        cout << endl;
+    }
+
+    return 0;
+}
