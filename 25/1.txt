@@ -1,16 +1,12 @@
 #include <iostream>
 using namespace std;
 
-// Base class
 class Tree {
 public:
-    virtual void draw() const {
-        // Base version (optional to implement)
-    }
-    virtual ~Tree() {} // Always make base destructors virtual
+    virtual void draw() const {}
+    //virtual ~Tree() {} 
 };
 
-// Derived class 1
 class Tree1 : public Tree {
 public:
     void draw() const override {
@@ -20,7 +16,6 @@ public:
     }
 };
 
-// Derived class 2
 class Tree2 : public Tree {
 public:
     void draw() const override {
@@ -30,7 +25,6 @@ public:
     }
 };
 
-// Derived class 3
 class Tree3 : public Tree {
 public:
     void draw() const override {
@@ -41,10 +35,9 @@ public:
 };
 
 int main() {
-    // Array of base class pointers
+
     Tree* forest[3];
 
-    // Create objects and assign them to the array
     Tree1 t1;
     Tree2 t2;
     Tree3 t3;
@@ -53,7 +46,6 @@ int main() {
     forest[1] = &t2;
     forest[2] = &t3;
 
-    // Call draw() on each tree using polymorphism
     for (int i = 0; i < 3; ++i) {
         forest[i]->draw();
         cout << endl;

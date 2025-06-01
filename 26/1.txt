@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <cctype> // додано
+#include <cctype> 
 using namespace std;
 
 class IPAddress {
@@ -39,13 +39,11 @@ public:
 
         string segment = ipAddress.substr(start, end - start);
 
-        // Перевірка: сегмент не порожній, без знаків "+" або "-"
         if (segment.empty()) return false;
         for (char ch : segment) {
             if (!isdigit(ch)) return false;
         }
 
-        // stoi без винятків, бо перевірка isdigit пройдена
         int num = stoi(segment);
         if (num < 0 || num > 255) return false;
 
@@ -53,7 +51,6 @@ public:
         start = end + 1;
     }
 
-    // Перевірити, що рівно 4 сегменти
     return count == 4;
 }
 
